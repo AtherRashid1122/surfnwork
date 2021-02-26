@@ -17,7 +17,7 @@ import styles from './styles';
 import {Fonts} from '../../utils/Fonts';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {connect} from 'react-redux';
-import getjobs from '../../Redux/Actions/AppAction';
+import {getjobs} from '../../Redux/Actions/AppAction';
 
 class TabScreen extends Component {
   constructor(props) {
@@ -26,33 +26,34 @@ class TabScreen extends Component {
       inbox: true,
       jobs: false,
       dataSource: [],
-      inboxData: [
-        {
-          id: 0,
-          title: 'Need an interactive website built',
-          des: 'I am avialable here for you.please tell me the details',
-        },
-        {
-          id: 1,
-          title: 'Need an interactive website built',
-          des: 'I am avialable here for you.please tell me the details',
-        },
-        {
-          id: 2,
-          title: 'Need an interactive website built',
-          des: 'I am avialable here for you.please tell me the details',
-        },
-        {
-          id: 3,
-          title: 'Need an interactive website built',
-          des: 'I am avialable here for you.please tell me the details',
-        },
-      ],
+      // inboxData: [
+      //   {
+      //     id: 0,
+      //     title: 'Need an interactive website built',
+      //     des: 'I am avialable here for you.please tell me the details',
+      //   },
+      //   {
+      //     id: 1,
+      //     title: 'Need an interactive website built',
+      //     des: 'I am avialable here for you.please tell me the details',
+      //   },
+      //   {
+      //     id: 2,
+      //     title: 'Need an interactive website built',
+      //     des: 'I am avialable here for you.please tell me the details',
+      //   },
+      //   {
+      //     id: 3,
+      //     title: 'Need an interactive website built',
+      //     des: 'I am avialable here for you.please tell me the details',
+      //   },
+      // ],
     };
   }
-  componentDidMount() {
-    this.callApi();
-  }
+
+  componentDidMount = async () => {
+    const res = await this.props.getjobs();
+  };
 
   renderjobs = ({item, index}) => {
     return (
@@ -73,9 +74,11 @@ class TabScreen extends Component {
                 styles.largeText,
                 {color: '#000', color: theme.colors.primary},
               ]}>
-              {item.title}
+              {item.job_title}
             </Text>
-            <Text style={[styles.mediumText, {color: '#000'}]}>{item.des}</Text>
+            <Text style={[styles.mediumText, {color: '#000'}]}>
+              {item.job_details}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -99,21 +102,21 @@ class TabScreen extends Component {
   //   console.warn()
 
   // }
-  getdata = async () => {
-    try {
-      console.log(getjobs);
-      const formData = new FormData();
+  // getdata = async () => {
+  //   try {
+  //     console.log(getjobs);
+  //     const formData = new FormData();
 
-      formData.append('job_title', '');
+  //     formData.append('job_title', '');
 
-      const res = await getjobs(formData);
-      alert(res);
-      // setLoading(false);
-    } catch (err) {
-      console.log(err);
-      // setLoading(false);
-    }
-  };
+  //     const res = await getjobs(formData);
+  //     // alert(res);
+  //     // setLoading(false);
+  //   } catch (err) {
+  //     console.log(err);
+  //     // setLoading(false);
+  //   }
+  // };
 
   changeTab = (index) => {
     if (index === 1) {
@@ -184,8 +187,8 @@ class TabScreen extends Component {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={this.state.inboxData}
-          extraData={this.state}
+          data={this.props.jobs}
+          extraData={this.props}
           showsVerticalScrollIndicator={false}
           renderItem={this.renderjobs}
           keyExtractor={(item, index) => item + index.toString()}
@@ -199,16 +202,10 @@ class TabScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // const {areas} = state.data;
-  // const {isLoading, isSuccess, isError, errMsg, addedCustomers} = state.local;
+  const {jobs} = state.app;
 
   return {
-    // areas,
-    // isLoading,
-    // isSuccess,
-    // isError,
-    // errMsg,
-    // addedCustomers,
+    jobs,
   };
 };
 export default connect(mapStateToProps, {getjobs})(TabScreen);

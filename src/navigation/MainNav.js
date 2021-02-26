@@ -21,7 +21,7 @@ const AppNavigator = createSwitchNavigator(
     },
   },
   {
-    initialRouteName: 'Splash',
+    initialRouteName: 'App',
   },
 );
 

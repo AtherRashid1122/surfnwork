@@ -6,3 +6,6 @@ export const GET_POSTS = 'GET_POSTS';
 export const TOKEN_SENT = 'TOKEN_SENT';
 export const TOKEN_FAILED = 'TOKEN_FAILED';
 export const GET_NOTIF = 'GET_NOTIF';
+// export const GET_JOB = 'GET_JOBS';
+
+export const GET_JOB = 'GET_JOBS';
